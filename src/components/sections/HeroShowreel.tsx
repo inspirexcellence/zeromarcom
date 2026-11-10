@@ -90,11 +90,13 @@ export default function HeroShowreel() {
           t4 = setTimeout(() => {
             setStage("fullscreen");
             markIntroDone();
-            // Dispatch event to reveal the Navbar with a smooth fade-in
+            // Dispatch event to reveal the Navbar with a smooth, jerk-free fade-in
             if (typeof window !== "undefined") {
-              window.dispatchEvent(
-                new CustomEvent("zeromarcom:video-fullscreen")
-              );
+              setTimeout(() => {
+                window.dispatchEvent(
+                  new CustomEvent("zeromarcom:video-fullscreen")
+                );
+              }, 80);
             }
             t5 = setTimeout(() => setScrollPromptVisible(true), 400);
           }, 2850);
@@ -191,21 +193,10 @@ export default function HeroShowreel() {
             "-28px 42px 90px -15px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 0, 0, 0.08)",
         };
       case "expanding":
-        return {
-          width: fullW + 48,
-          height: fullH + 48,
-          scale: 1.02,
-          opacity: 1,
-          rotateX: 0,
-          rotateY: 0,
-          rotateZ: 0,
-          borderRadius: 0,
-          boxShadow: "0 0 0 0 transparent",
-        };
       case "fullscreen":
         return {
-          width: "100%",
-          height: "100%",
+          width: fullW,
+          height: fullH,
           scale: 1,
           opacity: 1,
           rotateX: 0,
@@ -229,7 +220,7 @@ export default function HeroShowreel() {
       case "expanding":
         return { duration: 2.8, ease: [0.16, 1, 0.3, 1] }; // Slow, diagonal, majestic
       case "fullscreen":
-        return { duration: 0.1 };
+        return { duration: 0 };
       default:
         return { duration: 0.3 };
     }
@@ -238,17 +229,11 @@ export default function HeroShowreel() {
   return (
     <section
       id="hero-stage"
-      className={`relative w-full h-screen h-[100dvh] min-h-[100dvh] max-h-[100dvh] overflow-hidden select-none transition-colors duration-700 ${
-        stage === "fullscreen" || stage === "expanding" ? "bg-black" : "bg-white"
-      } ${stage === "fullscreen" ? "block" : "flex items-center justify-center"}`}
-      style={stage === "fullscreen" ? undefined : { perspective: "1500px" }}
+      className="relative w-full h-screen h-[100dvh] min-h-[100dvh] max-h-[100dvh] overflow-hidden select-none bg-black flex items-center justify-center"
+      style={{ perspective: "1500px" }}
     >
       {/* Ambient background glow on clean canvas */}
-      <div
-        className={`absolute inset-0 transition-colors duration-700 ${
-          stage === "fullscreen" || stage === "expanding" ? "bg-black" : "bg-white"
-        }`}
-      />
+      <div className="absolute inset-0 bg-black" />
 
       {/* 
         3D Floating Rectangular Video Container
@@ -256,7 +241,7 @@ export default function HeroShowreel() {
         - After intro dispersion, starts from a tiny dot at center.
         - Blossoms smoothly into a 3D tilted rectangular shape (video continuously playing).
         - Expands diagonally and subtly across 3D space to full screen (100vw x 100vh).
-        - On reaching full screen, locks to exact edge-to-edge bounds with zero white lines.
+        - On reaching full screen, locks seamlessly with zero jerk or scale snapping.
       */}
       <motion.div
         initial={{
@@ -273,18 +258,15 @@ export default function HeroShowreel() {
         animate={getAnimateTarget()}
         transition={getTransition()}
         style={{
-          transformStyle: stage === "fullscreen" ? "flat" : "preserve-3d",
+          transformStyle: "preserve-3d",
           transformOrigin: "center center",
-          ...(stage === "fullscreen"
-            ? { width: "100%", height: "100%", left: 0, top: 0, right: 0, bottom: 0 }
-            : {}),
         }}
-        className={`overflow-hidden flex items-center justify-center z-20 bg-black flex-shrink-0 ${
-          stage === "fullscreen" ? "absolute inset-0 w-full h-full min-w-full min-h-full" : "relative"
-        } ${stage === "dormant" ? "pointer-events-none opacity-0" : ""}`}
+        className={`overflow-hidden flex items-center justify-center z-20 bg-black flex-shrink-0 relative ${
+          stage === "dormant" ? "pointer-events-none opacity-0" : ""
+        }`}
       >
         {/* 
-          Continuous Looping hero.mp4
+          Continuous Looping hero2.mp4
           Plays inside the rectangle from inception and continues seamlessly 
           without interruption throughout the diagonal expansion to full screen.
         */}
@@ -298,7 +280,7 @@ export default function HeroShowreel() {
           className="absolute inset-0 w-full h-full object-cover z-10"
         >
           <source
-            src="/video/hero.mp4"
+            src="/video/hero2.mp4"
             type="video/mp4"
           />
         </video>

@@ -7,21 +7,30 @@ import Link from "next/link";
 export default function WhyUsBentoGrid() {
   return (
     <section className="py-12 sm:py-16 px-4 sm:px-8 max-w-7xl mx-auto select-none">
-      <div className="mb-8 sm:mb-12">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="mb-8 sm:mb-12"
+      >
         <h2 className="font-heading text-3xl sm:text-5xl text-ink font-bold tracking-tight">
           The 4 Pillars of Our Advantage<span className="text-cobalt">.</span>
         </h2>
         <p className="font-sans text-sm sm:text-base text-ink-muted mt-3 max-w-xl">
           We combined veteran discipline with fearless creative engineering to build an agency model that actually delivers on its promises.
         </p>
-      </div>
+      </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
         {/* Bento 1: Originality From Scratch (Large Card: 7 Cols) */}
         <motion.div
-          whileHover={{ y: -4 }}
-          transition={{ duration: 0.3 }}
-          className="lg:col-span-7 rounded-[32px] bg-white border border-line p-7 sm:p-10 flex flex-col justify-between shadow-sm relative overflow-hidden group"
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55, delay: 0.05 }}
+          whileHover={{ y: -6, scale: 1.005 }}
+          className="lg:col-span-7 rounded-[28px] sm:rounded-[32px] bg-white border border-line p-6 sm:p-10 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-blue-300/80 transition-all relative overflow-hidden group"
         >
           {/* Subtle blueprint grid overlay */}
           <div
@@ -77,9 +86,12 @@ export default function WhyUsBentoGrid() {
 
         {/* Bento 2: Military Veteran Precision (5 Cols) */}
         <motion.div
-          whileHover={{ y: -4 }}
-          transition={{ duration: 0.3 }}
-          className="lg:col-span-5 rounded-[32px] bg-gradient-to-br from-[#101012] via-[#161619] to-[#0c0c0e] text-white p-7 sm:p-10 flex flex-col justify-between shadow-xl relative overflow-hidden group"
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55, delay: 0.14 }}
+          whileHover={{ y: -6, scale: 1.005 }}
+          className="lg:col-span-5 rounded-[28px] sm:rounded-[32px] bg-gradient-to-br from-[#101012] via-[#161619] to-[#0c0c0e] text-white p-6 sm:p-10 flex flex-col justify-between shadow-xl hover:shadow-2xl relative overflow-hidden group"
         >
           {/* Subtle tactical ambient sheen */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.14)_0%,transparent_65%)] pointer-events-none" />
@@ -120,9 +132,12 @@ export default function WhyUsBentoGrid() {
 
         {/* Bento 3: Innovative Growth Strategy (5 Cols) */}
         <motion.div
-          whileHover={{ y: -4 }}
-          transition={{ duration: 0.3 }}
-          className="lg:col-span-5 rounded-[32px] bg-white border border-line p-7 sm:p-10 flex flex-col justify-between shadow-sm relative overflow-hidden group"
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55, delay: 0.22 }}
+          whileHover={{ y: -6, scale: 1.005 }}
+          className="lg:col-span-5 rounded-[28px] sm:rounded-[32px] bg-white border border-line p-6 sm:p-10 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-purple-300/80 transition-all relative overflow-hidden group"
         >
           {/* Subtle amber / cobalt glow */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
@@ -164,9 +179,12 @@ export default function WhyUsBentoGrid() {
 
         {/* Bento 4: Affordable Excellence & Transparent Value (7 Cols) */}
         <motion.div
-          whileHover={{ y: -4 }}
-          transition={{ duration: 0.3 }}
-          className="lg:col-span-7 rounded-[32px] bg-white border border-line p-7 sm:p-10 flex flex-col justify-between shadow-sm relative overflow-hidden group"
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55, delay: 0.3 }}
+          whileHover={{ y: -6, scale: 1.005 }}
+          className="lg:col-span-7 rounded-[28px] sm:rounded-[32px] bg-white border border-line p-6 sm:p-10 flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-amber-300/80 transition-all relative overflow-hidden group"
         >
           {/* Subtle amber radial sheen */}
           <div className="absolute top-0 right-0 w-72 h-72 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />

@@ -120,15 +120,15 @@ export default function Navbar() {
       <motion.header
         initial={{
           opacity: isHome ? (navVisible ? 1 : 0) : 1,
-          y: isHome ? (navVisible ? 0 : -28) : 0,
+          y: isHome ? (navVisible ? 0 : -20) : 0,
         }}
         animate={
           shouldShowNavbar
             ? { opacity: 1, y: 0 }
-            : { opacity: 0, y: -28 }
+            : { opacity: 0, y: -20 }
         }
-        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-6 left-0 right-0 z-[130] px-4 sm:px-8 max-w-7xl mx-auto transition-all ${
+        transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
+        className={`fixed top-6 left-0 right-0 z-[130] px-4 sm:px-8 max-w-7xl mx-auto will-change-transform transform-gpu ${
           shouldShowNavbar ? "pointer-events-auto" : "pointer-events-none"
         }`}
       >

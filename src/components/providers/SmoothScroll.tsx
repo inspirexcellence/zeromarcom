@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { ReactLenis, useLenis, type LenisRef } from "lenis/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import "lenis/dist/lenis.css";
 
 function ScrollTriggerSync() {
   useLenis(() => {

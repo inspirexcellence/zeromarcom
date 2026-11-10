@@ -79,7 +79,7 @@ export default function RootLayout({
       className={`${bricolageGrotesque.variable} ${inter.variable} ${instrumentSerif.variable} ${spaceGrotesk.variable}`}
     >
       <head>
-        <link rel="preload" href="/video/hero.mp4" as="video" type="video/mp4" />
+        <link rel="preload" href="/video/hero2.mp4" as="video" type="video/mp4" />
       </head>
       <body className="min-h-full flex flex-col bg-[#FBFBFC] text-[#101012] font-sans antialiased selection:bg-[#101012] selection:text-white">
         <SmoothScrollProvider>

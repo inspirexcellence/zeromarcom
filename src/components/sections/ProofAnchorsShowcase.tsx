@@ -91,14 +91,17 @@ export default function ProofAnchorsShowcase() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
         {/* Metric Cards (3 Columns across row 1) */}
-        {PROOFS.slice(0, 3).map((item) => {
+        {PROOFS.slice(0, 3).map((item, idx) => {
           const Icon = item.icon;
           return (
             <motion.div
               key={item.id}
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.3 }}
-              className={`${item.colSpan} rounded-[28px] bg-gradient-to-br ${item.bgGradient} text-white p-7 sm:p-8 flex flex-col justify-between shadow-lg relative overflow-hidden`}
+              initial={{ opacity: 0, y: 24, scale: 0.96 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              whileHover={{ y: -6, scale: 1.01 }}
+              className={`${item.colSpan} rounded-[28px] bg-gradient-to-br ${item.bgGradient} text-white p-6 sm:p-8 flex flex-col justify-between shadow-lg hover:shadow-2xl transition-shadow relative overflow-hidden`}
             >
               {/* Subtle radial sheen */}
               <div className="absolute top-0 right-0 w-44 h-44 bg-white/10 rounded-full blur-2xl pointer-events-none" />
@@ -135,14 +138,17 @@ export default function ProofAnchorsShowcase() {
         })}
 
         {/* Media & Tech Cards (2 Columns across row 2) */}
-        {PROOFS.slice(3).map((item) => {
+        {PROOFS.slice(3).map((item, idx) => {
           const Icon = item.icon;
           return (
             <motion.div
               key={item.id}
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.3 }}
-              className={`${item.colSpan} rounded-[28px] bg-black text-white overflow-hidden shadow-xl relative min-h-[300px] flex flex-col justify-end p-7 sm:p-8 group`}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, delay: 0.25 + idx * 0.12 }}
+              whileHover={{ y: -6 }}
+              className={`${item.colSpan} rounded-[28px] bg-black text-white overflow-hidden shadow-xl relative min-h-[280px] sm:min-h-[320px] flex flex-col justify-end p-6 sm:p-8 group`}
             >
               {/* Background Media */}
               {item.videoSrc ? (
@@ -165,6 +171,7 @@ export default function ProofAnchorsShowcase() {
                     src={item.image!}
                     alt={item.title}
                     fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover opacity-60 mix-blend-luminosity group-hover:scale-105 transition-transform duration-700 ease-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/30" />

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import CapabilitiesSection from "@/components/sections/CapabilitiesSection";
+import BackgroundCubesGridDemo from "@/components/background-cubes-grid-demo";
 
 export const metadata: Metadata = {
   title: "Services & Capabilities — Built From Scratch | ZEROMARCOM",
@@ -25,6 +26,11 @@ export default function ServicesPage() {
 
       {/* Full Capabilities Matrix */}
       <CapabilitiesSection />
+
+      {/* Interactive 3D Isometric Cubes Omnichannel Sync Section */}
+      <div className="mt-12">
+        <BackgroundCubesGridDemo />
+      </div>
 
       {/* Scope Lab Promotion Strip */}
       <div className="max-w-7xl mx-auto px-4 sm:px-8 mt-16">

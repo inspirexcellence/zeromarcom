@@ -311,21 +311,30 @@ function ParallaxServiceRow({
         </p>
 
         {/* Deliverables Card */}
-        <div className="mb-8 p-6 sm:p-7 rounded-2xl bg-white border border-line shadow-sm">
-          <div className="font-mono text-[11px] text-ink-subtle uppercase tracking-wider mb-3 font-semibold">
+        <motion.div
+          whileHover={{ y: -3 }}
+          transition={{ duration: 0.25 }}
+          className="mb-8 p-5 sm:p-7 rounded-2xl bg-white border border-line shadow-sm hover:border-cobalt/40 hover:shadow-md transition-all relative overflow-hidden group"
+        >
+          <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-blue-500/5 blur-2xl group-hover:bg-blue-500/12 transition-colors pointer-events-none" />
+          <div className="font-mono text-[11px] text-ink-subtle uppercase tracking-wider mb-3 font-semibold relative z-10">
             CORE DELIVERABLES &amp; CAPABILITIES:
           </div>
-          <div className="flex flex-wrap gap-2">
-            {service.deliverables.map((item) => (
-              <span
+          <div className="flex flex-wrap gap-2 relative z-10">
+            {service.deliverables.map((item, idx) => (
+              <motion.span
                 key={item}
-                className="px-3 py-1.5 rounded-lg bg-canvas border border-line/80 font-mono text-xs text-ink font-medium"
+                initial={{ opacity: 0, y: 8 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: idx * 0.06 }}
+                className="px-3 py-1.5 rounded-lg bg-canvas border border-line/80 font-mono text-xs text-ink font-medium hover:border-cobalt/50 hover:bg-blue-50/40 transition-colors"
               >
                 {item}
-              </span>
+              </motion.span>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Direct Action Links */}
         <div className="flex flex-wrap items-center gap-4">
@@ -365,57 +374,42 @@ export default function CapabilitiesSection() {
       {/* Anchor aliases for dropdown navigation */}
       <span id="capabilities" className="sr-only" />
 
-      {/* Section Sub-Nav & Tab Filter Bar */}
+      {/* Section Sub-Nav & Aceternity Animated Tab Filter Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-8 mb-4 border-b border-line gap-4">
         <div className="font-mono text-xs text-ink-muted">
           SHOWING <span className="text-ink font-semibold">{filteredServices.length}</span> STRATEGIC DISCIPLINES
         </div>
 
         <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
-          <button
-            type="button"
-            onClick={() => setActiveTab("all")}
-            className={`px-4 py-2 rounded-full border transition-all cursor-pointer ${
-              activeTab === "all"
-                ? "bg-ink text-white border-ink shadow-sm"
-                : "bg-white text-ink-muted border-line hover:border-ink hover:text-ink"
-            }`}
-          >
-            All Disciplines ({SERVICES.length})
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("personal")}
-            className={`px-4 py-2 rounded-full border transition-all cursor-pointer ${
-              activeTab === "personal"
-                ? "bg-ink text-white border-ink shadow-sm"
-                : "bg-white text-ink-muted border-line hover:border-ink hover:text-ink"
-            }`}
-          >
-            Personal Branding (4)
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("business")}
-            className={`px-4 py-2 rounded-full border transition-all cursor-pointer ${
-              activeTab === "business"
-                ? "bg-ink text-white border-ink shadow-sm"
-                : "bg-white text-ink-muted border-line hover:border-ink hover:text-ink"
-            }`}
-          >
-            Business Growth (2)
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab("creative")}
-            className={`px-4 py-2 rounded-full border transition-all cursor-pointer ${
-              activeTab === "creative"
-                ? "bg-ink text-white border-ink shadow-sm"
-                : "bg-white text-ink-muted border-line hover:border-ink hover:text-ink"
-            }`}
-          >
-            Creative Services (3)
-          </button>
+          {[
+            { id: "all" as const, label: `All Disciplines (${SERVICES.length})` },
+            { id: "personal" as const, label: "Personal Branding (4)" },
+            { id: "business" as const, label: "Business Growth (2)" },
+            { id: "creative" as const, label: "Creative Services (3)" },
+          ].map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                className={`relative px-4 py-2 rounded-full border transition-colors cursor-pointer ${
+                  isActive
+                    ? "text-white border-ink"
+                    : "bg-white text-ink-muted border-line hover:border-ink hover:text-ink"
+                }`}
+              >
+                {isActive && (
+                  <motion.span
+                    layoutId="services-active-tab-pill"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.55 }}
+                    className="absolute inset-0 rounded-full bg-ink shadow-sm"
+                  />
+                )}
+                <span className="relative z-10">{tab.label}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
 

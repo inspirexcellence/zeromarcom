@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, Check } from "lucide-react";
 import { emitToast } from "@/components/ui/ToastNotification";
 
@@ -129,20 +130,32 @@ export default function ScopeEstimator() {
   };
 
   return (
-    <section id="calculator" className="py-24 sm:py-32 px-6 sm:px-12 max-w-7xl mx-auto border-t border-line">
-      <div className="text-center max-w-3xl mx-auto mb-16">
-        <h2 className="font-serif text-4xl sm:text-6xl text-ink font-normal tracking-tight">
+    <section id="calculator" className="py-16 sm:py-28 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto border-t border-line">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="text-center max-w-3xl mx-auto mb-12 sm:mb-16"
+      >
+        <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl text-ink font-normal tracking-tight">
           Interactive Scope Lab.
         </h2>
         <p className="font-sans text-sm text-ink-muted mt-3">
           Configure your strategic requirements below to generate an instantaneous ballpark
           investment tier and deployment timeline.
         </p>
-      </div>
+      </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Configurator Form */}
-        <div className="lg:col-span-7 p-8 sm:p-10 rounded-3xl bg-white border border-line editorial-shadow">
+        <motion.div
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="lg:col-span-7 p-6 sm:p-10 rounded-3xl bg-white border border-line editorial-shadow relative overflow-hidden"
+        >
           {/* Modules */}
           <div className="mb-8">
             <label className="block font-mono text-xs uppercase tracking-wider text-ink mb-4 font-semibold">
@@ -152,13 +165,14 @@ export default function ScopeEstimator() {
               {DISCIPLINES.map((d) => {
                 const isActive = selectedDisciplines.includes(d.id);
                 return (
-                  <button
+                  <motion.button
                     key={d.id}
                     type="button"
+                    whileTap={{ scale: 0.98 }}
                     onClick={() => toggleDiscipline(d.id)}
                     className={`p-4 rounded-2xl border text-left font-mono text-xs transition-all flex items-center justify-between cursor-pointer ${
                       isActive
-                        ? "border-ink bg-canvas text-ink"
+                        ? "border-cobalt bg-blue-50/50 text-ink shadow-xs"
                         : "border-line hover:border-ink bg-white text-ink-muted"
                     }`}
                   >
@@ -168,36 +182,46 @@ export default function ScopeEstimator() {
                     ) : (
                       <span className="text-transparent">✓</span>
                     )}
-                  </button>
+                  </motion.button>
                 );
               })}
             </div>
           </div>
 
-          {/* Velocity Sprint Pace */}
+          {/* Velocity Sprint Pace with Aceternity Animated Layout Pill */}
           <div className="mb-8">
             <label className="block font-mono text-xs uppercase tracking-wider text-ink mb-3 font-semibold">
               [ VELOCITY PACE ]
             </label>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
               {[
                 { label: "FAST TRACK", val: 1.2 },
                 { label: "BALANCED", val: 1.0 },
                 { label: "EXPANSIVE", val: 0.85 },
-              ].map((v) => (
-                <button
-                  key={v.label}
-                  type="button"
-                  onClick={() => handleVelocityChange(v.val)}
-                  className={`p-3 rounded-xl border text-center font-mono text-xs transition-all cursor-pointer ${
-                    velocity === v.val
-                      ? "border-ink bg-ink text-white"
-                      : "border-line text-ink-muted hover:border-ink"
-                  }`}
-                >
-                  {v.label}
-                </button>
-              ))}
+              ].map((v) => {
+                const isSelected = velocity === v.val;
+                return (
+                  <button
+                    key={v.label}
+                    type="button"
+                    onClick={() => handleVelocityChange(v.val)}
+                    className={`relative p-3 rounded-xl border text-center font-mono text-[11px] sm:text-xs transition-colors cursor-pointer overflow-hidden ${
+                      isSelected
+                        ? "border-ink text-white"
+                        : "border-line text-ink-muted hover:border-ink"
+                    }`}
+                  >
+                    {isSelected && (
+                      <motion.span
+                        layoutId="velocity-pace-pill"
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
+                        className="absolute inset-0 bg-ink rounded-xl"
+                      />
+                    )}
+                    <span className="relative z-10">{v.label}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -215,49 +239,84 @@ export default function ScopeEstimator() {
               onChange={(e) => handleStageChange(parseInt(e.target.value))}
               className="w-full h-1.5 bg-line rounded-lg appearance-none cursor-pointer accent-cobalt"
             />
-            <div className="flex justify-between font-mono text-[10px] text-ink-subtle mt-2">
+            <div className="flex justify-between font-mono text-[9px] sm:text-[10px] text-ink-subtle mt-2">
               <span>SEED / BOOTSTRAP</span>
               <span>SERIES A / SCALING</span>
               <span>GLOBAL ENTERPRISE</span>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Right Output Card */}
-        <div className="lg:col-span-5 p-8 sm:p-10 rounded-3xl bg-ink text-white shadow-2xl relative overflow-hidden">
-          <div className="font-mono text-xs text-white/60 uppercase tracking-widest mb-6 flex items-center justify-between">
+        {/* Right Output Card with Aceternity Aurora Glow & Animated Numbers */}
+        <motion.div
+          initial={{ opacity: 0, x: 24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="lg:col-span-5 p-6 sm:p-10 rounded-3xl bg-ink text-white shadow-2xl relative overflow-hidden border border-white/10"
+        >
+          {/* Aceternity Ambient Aurora Glow */}
+          <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-blue-500/20 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -left-24 w-64 h-64 rounded-full bg-emerald-500/15 blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 font-mono text-xs text-white/60 uppercase tracking-widest mb-6 flex items-center justify-between">
             <span>{"//"} REAL-TIME BLUEPRINT</span>
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           </div>
 
-          <div className="space-y-4 font-mono text-xs border-b border-white/10 pb-6 mb-6">
+          <div className="relative z-10 space-y-4 font-mono text-xs border-b border-white/10 pb-6 mb-6">
             <div className="flex justify-between items-center text-white/70">
               <span>ESTIMATED TIMELINE:</span>
-              <span className="text-white font-medium text-sm">~ {estimatedWeeks} Weeks</span>
+              <AnimatePresence mode="popLayout">
+                <motion.span
+                  key={estimatedWeeks}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.25 }}
+                  className="text-white font-medium text-sm"
+                >
+                  ~ {estimatedWeeks} Weeks
+                </motion.span>
+              </AnimatePresence>
             </div>
-            <div className="flex justify-between items-center text-white/70">
-              <span>DEPLOYMENT STACK:</span>
-              <span className="text-white font-medium">{stackDescription}</span>
+            <div className="flex justify-between items-center text-white/70 gap-4">
+              <span className="shrink-0">DEPLOYMENT STACK:</span>
+              <span className="text-white font-medium text-right">{stackDescription}</span>
             </div>
             <div className="flex justify-between items-center text-white/70">
               <span>INVESTMENT TIER:</span>
-              <span className="text-white font-bold text-base sm:text-lg">
-                ${lowPrice.toLocaleString()} — ${highPrice.toLocaleString()}
-              </span>
+              <AnimatePresence mode="popLayout">
+                <motion.span
+                  key={`${lowPrice}-${highPrice}`}
+                  initial={{ opacity: 0, scale: 0.92 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.92 }}
+                  transition={{ duration: 0.25 }}
+                  className="text-emerald-400 font-bold text-base sm:text-lg"
+                >
+                  ${lowPrice.toLocaleString()} — ${highPrice.toLocaleString()}
+                </motion.span>
+              </AnimatePresence>
             </div>
           </div>
 
-          <div className="mb-6">
+          <div className="relative z-10 mb-6">
             <div className="font-mono text-[10px] uppercase text-white/50 tracking-wider mb-2">
               SELECTED SCOPE MODULES:
             </div>
             <div className="space-y-1.5 font-sans text-xs text-white/80">
               {activeItems.length > 0 ? (
                 activeItems.map((item) => (
-                  <div key={item.id} className="flex items-center gap-2">
+                  <motion.div
+                    key={item.id}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="flex items-center gap-2"
+                  >
                     <Check className="w-3.5 h-3.5 text-cobalt shrink-0" />
                     <span>{item.name}</span>
-                  </div>
+                  </motion.div>
                 ))
               ) : (
                 <div className="text-white/40 italic">Foundational Discovery Module</div>
@@ -268,12 +327,12 @@ export default function ScopeEstimator() {
           <button
             type="button"
             onClick={handleTransferBlueprint}
-            className="w-full py-3.5 rounded-full bg-white text-ink font-mono text-xs font-semibold uppercase tracking-wider hover:bg-cobalt hover:text-white transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-lg"
+            className="relative z-10 w-full py-3.5 rounded-full bg-white text-ink font-mono text-xs font-semibold uppercase tracking-wider hover:bg-cobalt hover:text-white transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-lg"
           >
             <span>APPLY BLUEPRINT TO INQUIRY</span>
             <ArrowRight className="w-4 h-4" />
           </button>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

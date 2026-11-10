@@ -11,6 +11,30 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
 }
 
+const MAGENTA_ITEMS = [
+  "ZEROMARCOM",
+  "GO INFINITE",
+  "UNIGNORABLE LEADERSHIP",
+  "HIGH-VELOCITY CREATIVE",
+  "ZERO IN ON YOUR GOALS",
+  "MAXIMIZE BRAND IMPACT",
+  "WHERE ORIGINALITY MEETS INNOVATION",
+];
+
+const LIME_ITEMS = [
+  "EFFECTIVE ELEMENT — SIMPLE SOLUTIONS",
+  "STRATEGIC BRAND ARCHITECTURE",
+  "FULL-STACK WEB DESIGN & ENGINEERING",
+  "HIGH-CONVERSION SALES FUNNELS",
+  "COMMERCIAL PHOTOGRAPHY & FILM",
+  "DATA-DRIVEN PERFORMANCE MARKETING",
+  "EXECUTIVE PERSONAL BRANDING",
+];
+
+// Double packed items per track for seamless infinite marquee loop with zero end-gap
+const ALL_MAGENTA = [...MAGENTA_ITEMS, ...MAGENTA_ITEMS];
+const ALL_LIME = [...LIME_ITEMS, ...LIME_ITEMS];
+
 interface BaseCard {
   id: string;
   baseY: number;
@@ -46,7 +70,7 @@ const CARDS: CardItem[] = [
     description:
       "Our designers developers, and marketers bring over a decade of industry expertise to every project.",
     bgColor: "bg-[#1E60F2]", // Vibrant Royal Blue
-    baseY: 14, // Lower
+    baseY: 14,
     baseRotate: -4,
   },
   {
@@ -59,7 +83,7 @@ const CARDS: CardItem[] = [
     poster:
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
     alt: "Colleagues collaborating at meeting desk",
-    baseY: -16, // Higher (uneven top/bottom)
+    baseY: -16,
     baseRotate: 1.5,
   },
   {
@@ -70,7 +94,7 @@ const CARDS: CardItem[] = [
     description:
       "Every project ships on schedule with quality that meets our standards and exceeds your expectations.",
     bgColor: "bg-[#15803D]", // Vibrant Emerald Green
-    baseY: 8, // Lower
+    baseY: 8,
     baseRotate: -1.2,
   },
   {
@@ -81,7 +105,7 @@ const CARDS: CardItem[] = [
     poster:
       "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=800&q=80",
     alt: "Futuristic Precision Clock HUD",
-    baseY: -14, // Higher (uneven top/bottom)
+    baseY: -14,
     baseRotate: 3.2,
   },
   {
@@ -92,7 +116,7 @@ const CARDS: CardItem[] = [
     description:
       "Our clients trust us for consistent quality, on time delivery, and creative work that genuinely moves their business forward.",
     bgColor: "bg-[#7C3AED]", // Rich Violet Purple
-    baseY: 12, // Lower
+    baseY: 12,
     baseRotate: -2.2,
   },
 ];
@@ -108,6 +132,7 @@ function HudClockGraphic() {
         src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=800&q=80"
         alt="Urban Architectural Tech"
         fill
+        sizes="(max-width: 768px) 260px, 250px"
         className="object-cover opacity-40 mix-blend-luminosity"
       />
 
@@ -167,7 +192,8 @@ export default function FourPillars() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const pinSectionRef = useRef<HTMLElement>(null);
   const zoomStageRef = useRef<HTMLDivElement>(null);
-  const portalRingRef = useRef<HTMLDivElement>(null);
+  const portalArchRef = useRef<HTMLDivElement>(null);
+  const marqueeContainerRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const cardsWrapperRef = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -175,28 +201,37 @@ export default function FourPillars() {
     () => {
       const section = pinSectionRef.current;
       const zoomStage = zoomStageRef.current;
-      const portalRing = portalRingRef.current;
+      const portalArch = portalArchRef.current;
+      const marqueeContainer = marqueeContainerRef.current;
       const header = headerRef.current;
       if (!section || !zoomStage) return;
 
       const mm = gsap.matchMedia();
 
-      // Desktop & Tablet (screens >= 768px): Smooth SVG Circle Expansion followed by Section Entrance
+      // Desktop & Tablet (screens >= 768px): Monumental Half-Circle Arch Portal Expansion
       mm.add("(min-width: 768px)", () => {
-        // Step 1 Initial state: SVG circle is visible and centered
-        if (portalRing) {
-          gsap.set(portalRing, {
-            scale: 0.85,
+        // Step 1 Initial state: Marquee strips visible at top, Blue Arch visible at bottom
+        if (marqueeContainer) {
+          gsap.set(marqueeContainer, {
+            y: 0,
             autoAlpha: 1,
             force3D: true,
-            transformOrigin: "center center",
           });
         }
 
-        // Step 2 Initial state: "Why Brands Work With Us" section waits hidden until circle expands
+        if (portalArch) {
+          gsap.set(portalArch, {
+            scale: 1,
+            autoAlpha: 1,
+            force3D: true,
+            transformOrigin: "50% 100%",
+          });
+        }
+
+        // Step 2 Initial state: "Why Brands Work With Us" section waits hidden inside hollow opening
         gsap.set(zoomStage, {
-          scale: 0.92,
-          y: 50,
+          scale: 0.42,
+          y: 70,
           autoAlpha: 0,
           force3D: true,
           transformOrigin: "center center",
@@ -212,12 +247,12 @@ export default function FourPillars() {
         // Cards start collapsed in center
         cardsWrapperRef.current.forEach((cardEl, idx) => {
           if (!cardEl) return;
-          const collapseX = (2 - idx) * 140;
+          const collapseX = (2 - idx) * 120;
           gsap.set(cardEl, {
             x: collapseX,
-            y: 50,
+            y: 40,
             rotation: 0,
-            scale: 0.6,
+            scale: 0.65,
             autoAlpha: 0,
             force3D: true,
           });
@@ -227,7 +262,7 @@ export default function FourPillars() {
           scrollTrigger: {
             trigger: section,
             start: "top top",
-            end: "+=220%",
+            end: "+=125%", // Reduced from 240% to eliminate excessive empty scroll distance
             pin: true,
             pinSpacing: true,
             scrub: 0.2, // Ultra-responsive scrub synced directly to Lenis inertia (0 lag, 0 jerking)
@@ -235,44 +270,58 @@ export default function FourPillars() {
           },
         });
 
-        // PHASE 1: SVG Circle expands smoothly with scroll (0.0 to 0.44)
-        // Uses linear scrub ("none") so motion starts instantly without any "hang" or sudden spike
-        if (portalRing) {
+        // PHASE 1: Top Marquee strips slide up and fade away smoothly (0.0 to 0.16)
+        if (marqueeContainer) {
           tl.to(
-            portalRing,
+            marqueeContainer,
             {
-              scale: 9.5, // Perfectly clears viewport without overloading GPU memory
+              y: -80,
+              autoAlpha: 0,
+              duration: 0.16,
+              ease: "power1.in",
+              force3D: true,
+            },
+            0
+          );
+        }
+
+        // PHASE 2: Cobalt Blue Half-Circle Arch expands smoothly from bottom center (0.0 to 0.44)
+        if (portalArch) {
+          tl.to(
+            portalArch,
+            {
+              scale: 9.5, // Hollow center expands to engulf viewport cleanly
               duration: 0.44,
-              ease: "none",
+              ease: "power1.inOut",
               force3D: true,
             },
             0
           );
 
-          // As circle expands past viewport borders, hide it cleanly from compositor
+          // As arch perimeter clears the viewport, fade out cleanly
           tl.to(
-            portalRing,
+            portalArch,
             {
               autoAlpha: 0,
-              duration: 0.12,
+              duration: 0.14,
               ease: "power1.in",
             },
-            0.32
+            0.30
           );
         }
 
-        // PHASE 2: THEN "Why Brands Work With Us" section glides smoothly in (0.38 to 0.72)
+        // PHASE 3: JUST AFTER circle expands, this section emerges completely (0.40 to 0.78)
         tl.to(
           zoomStage,
           {
             scale: 1,
             y: 0,
             autoAlpha: 1,
-            duration: 0.34,
-            ease: "power1.out",
+            duration: 0.36,
+            ease: "power2.out",
             force3D: true,
           },
-          0.38
+          0.40
         );
 
         // Header reveals smoothly into place
@@ -281,11 +330,11 @@ export default function FourPillars() {
           {
             y: 0,
             autoAlpha: 1,
-            duration: 0.24,
-            ease: "power1.out",
+            duration: 0.22,
+            ease: "power2.out",
             force3D: true,
           },
-          0.44
+          0.46
         );
 
         // Cards smoothly fan out into their signature staggered positions
@@ -300,35 +349,44 @@ export default function FourPillars() {
               rotation: targetCard.baseRotate,
               scale: 1,
               autoAlpha: 1,
-              duration: 0.32,
+              duration: 0.24,
               ease: "power2.out",
               force3D: true,
             },
-            0.46 + idx * 0.035
+            0.50 + idx * 0.04
           );
         });
 
-        // PHASE 3: Settling buffer (0.72 to 1.0)
-        // Keeps section completely pinned and interactive before unpinning
-        tl.to({}, { duration: 0.28 });
+        // PHASE 4: Minimal settle margin (0.80 to 0.88)
+        // Eliminates the long empty scroll gap so normal scroll down resumes promptly!
+        tl.to({}, { duration: 0.08 });
 
-        setTimeout(() => ScrollTrigger.refresh(), 100);
+        const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 100);
+        return () => clearTimeout(refreshTimer);
       });
 
-      // Mobile screens (< 768px): Smooth SVG circle expansion followed by cards reveal
+      // Mobile screens (< 768px): Smooth Arch expansion followed by cards carousel reveal
       mm.add("(max-width: 767px)", () => {
-        if (portalRing) {
-          gsap.set(portalRing, {
-            scale: 0.85,
+        if (marqueeContainer) {
+          gsap.set(marqueeContainer, {
+            y: 0,
             autoAlpha: 1,
             force3D: true,
-            transformOrigin: "center center",
+          });
+        }
+
+        if (portalArch) {
+          gsap.set(portalArch, {
+            scale: 1,
+            autoAlpha: 1,
+            force3D: true,
+            transformOrigin: "50% 100%",
           });
         }
 
         gsap.set(zoomStage, {
-          scale: 0.88,
-          y: 40,
+          scale: 0.78,
+          y: 28,
           autoAlpha: 0,
           force3D: true,
           transformOrigin: "center center",
@@ -338,32 +396,44 @@ export default function FourPillars() {
           scrollTrigger: {
             trigger: section,
             start: "top top",
-            end: "+=160%",
+            end: "+=75%", // Snappy mobile scroll distance with zero dead gap
             pin: true,
             pinSpacing: true,
-            scrub: 0.2,
+            scrub: 0.15,
             invalidateOnRefresh: true,
           },
         });
 
-        if (portalRing) {
+        if (marqueeContainer) {
           tl.to(
-            portalRing,
+            marqueeContainer,
             {
-              scale: 8,
-              duration: 0.44,
-              ease: "none",
+              y: -60,
+              autoAlpha: 0,
+              duration: 0.16,
+            },
+            0
+          );
+        }
+
+        if (portalArch) {
+          tl.to(
+            portalArch,
+            {
+              scale: 6.5,
+              duration: 0.36,
+              ease: "power1.inOut",
               force3D: true,
             },
             0
           );
           tl.to(
-            portalRing,
+            portalArch,
             {
               autoAlpha: 0,
               duration: 0.12,
             },
-            0.32
+            0.24
           );
         }
 
@@ -373,15 +443,16 @@ export default function FourPillars() {
             scale: 1,
             y: 0,
             autoAlpha: 1,
-            duration: 0.44,
-            ease: "power1.out",
+            duration: 0.34,
+            ease: "power2.out",
             force3D: true,
           },
-          0.40
+          0.22
         );
 
-        tl.to({}, { duration: 0.25 });
-        setTimeout(() => ScrollTrigger.refresh(), 100);
+        tl.to({}, { duration: 0.06 });
+        const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 100);
+        return () => clearTimeout(refreshTimer);
       });
 
       return () => mm.revert();
@@ -390,14 +461,15 @@ export default function FourPillars() {
   );
 
   return (
-    <section
-      ref={pinSectionRef}
-      id="winning-edge"
-      className="relative w-full h-screen min-h-[640px] select-none bg-white border-y border-line/70 flex flex-col justify-center items-center z-30 isolate"
-    >
+    <div className="w-full relative">
+      <section
+        ref={pinSectionRef}
+        id="winning-edge"
+        className="relative w-full h-screen min-h-[640px] select-none bg-white border-y border-line/70 flex flex-col justify-between items-center z-30 isolate overflow-hidden"
+      >
       <span id="pillars" className="sr-only scroll-mt-28" />
 
-      {/* Architectural Grid Background (Matching User Reference Image) */}
+      {/* Architectural Blueprint Grid Background (Restored) */}
       <div 
         className="absolute inset-0 pointer-events-none overflow-hidden"
         style={{
@@ -414,60 +486,111 @@ export default function FourPillars() {
         className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,transparent_35%,rgba(255,255,255,0.75)_100%)]" 
       />
 
-      {/* Expanding SVG Circle Portal (Ready for your custom SVG) */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-20 flex items-center justify-center">
+      {/* Top Marquee Ribbon Strip matching user's exact reference (Image 2) */}
+      <div
+        ref={marqueeContainerRef}
+        className="absolute top-0 left-0 w-full pt-2 sm:pt-4 z-25 pointer-events-none will-change-transform flex flex-col gap-0 overflow-hidden"
+      >
+        {/* Top Strip: Magenta (#D81E5B) - Slightly angled */}
         <div
-          ref={portalRingRef}
-          className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 flex items-center justify-center will-change-transform transform-gpu"
-          style={{ transformOrigin: "center center", backfaceVisibility: "hidden" }}
+          className="w-[125vw] -left-[12vw] relative"
+          style={{ transform: "rotate(-1.2deg)", willChange: "transform" }}
         >
-          {/* High-Performance Vector SVG Circle without heavy CPU/GPU filter overhead */}
-          <svg
-            viewBox="0 0 400 400"
-            className="w-full h-full text-cobalt"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            {/* Outer Precision Hairline */}
-            <circle
-              cx="200"
-              cy="200"
-              r="192"
-              stroke="#0047FF"
-              strokeWidth="2"
-              strokeOpacity="0.4"
-            />
+          <div className="bg-[#D81E5B] py-2 sm:py-2.5 flex overflow-hidden shadow-[0_4px_16px_rgba(216,30,91,0.22)]">
+            <div className="animate-marquee-left flex shrink-0 items-center whitespace-nowrap">
+              {/* Set 1 */}
+              <div className="flex shrink-0 items-center gap-6 sm:gap-9 px-3">
+                {ALL_MAGENTA.map((item, i) => (
+                  <div key={`mag-1-${i}`} className="flex items-center gap-6 sm:gap-9">
+                    <span className="font-heading font-extrabold text-xs sm:text-sm text-white tracking-wider uppercase">
+                      {item}
+                    </span>
+                    <span className="text-white/60 text-[10px] font-mono">✦</span>
+                  </div>
+                ))}
+              </div>
+              {/* Set 2 (Identical for seamless infinite loop) */}
+              <div className="flex shrink-0 items-center gap-6 sm:gap-9 px-3" aria-hidden="true">
+                {ALL_MAGENTA.map((item, i) => (
+                  <div key={`mag-2-${i}`} className="flex items-center gap-6 sm:gap-9">
+                    <span className="font-heading font-extrabold text-xs sm:text-sm text-white tracking-wider uppercase">
+                      {item}
+                    </span>
+                    <span className="text-white/60 text-[10px] font-mono">✦</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
 
-            {/* Main Thick Vector Border Ring (Hollow Center) */}
-            <circle
-              cx="200"
-              cy="200"
-              r="170"
-              stroke="#0047FF"
-              strokeWidth="26"
-              fill="none"
-            />
-
-            {/* Inner Precision Hairline */}
-            <circle
-              cx="200"
-              cy="200"
-              r="148"
-              stroke="#0047FF"
-              strokeWidth="1.5"
-              strokeOpacity="0.35"
-            />
-          </svg>
+        {/* Bottom Strip: Neon Lime (#A8F600) - Slightly angled */}
+        <div
+          className="w-[125vw] -left-[12vw] relative -mt-1 sm:-mt-1.5"
+          style={{ transform: "rotate(1.1deg)", willChange: "transform" }}
+        >
+          <div className="bg-[#A8F600] py-2 sm:py-2.5 flex overflow-hidden shadow-[0_6px_20px_rgba(0,0,0,0.12)]">
+            <div className="animate-marquee-right flex shrink-0 items-center whitespace-nowrap">
+              {/* Set 1 */}
+              <div className="flex shrink-0 items-center gap-6 sm:gap-9 px-3">
+                {ALL_LIME.map((item, i) => (
+                  <div key={`lime-1-${i}`} className="flex items-center gap-6 sm:gap-9">
+                    <span className="font-heading font-black text-xs sm:text-sm text-[#101012] tracking-wider uppercase">
+                      {item}
+                    </span>
+                    <span className="text-[#101012]/40 text-[10px] font-mono">✦</span>
+                  </div>
+                ))}
+              </div>
+              {/* Set 2 (Identical for seamless infinite loop) */}
+              <div className="flex shrink-0 items-center gap-6 sm:gap-9 px-3" aria-hidden="true">
+                {ALL_LIME.map((item, i) => (
+                  <div key={`lime-2-${i}`} className="flex items-center gap-6 sm:gap-9">
+                    <span className="font-heading font-black text-xs sm:text-sm text-[#101012] tracking-wider uppercase">
+                      {item}
+                    </span>
+                    <span className="text-[#101012]/40 text-[10px] font-mono">✦</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* 3D Zoom Stage: Emerges from center point along Z-Axis and expands to full screen size */}
+      {/* Monumental Cobalt Blue Half-Circle Arch Portal resting flat on bottom edge (Image 2) */}
+      <div
+        ref={portalArchRef}
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[285vw] sm:w-[195vw] md:w-full max-w-none md:max-w-[1360px] h-[80vh] sm:h-[70vh] md:h-[60vh] max-h-[760px] md:max-h-[620px] min-h-[280px] pointer-events-none z-20 flex items-end justify-center will-change-transform transform-gpu"
+        style={{ transformOrigin: "50% 100%", backfaceVisibility: "hidden" }}
+      >
+        <svg
+          viewBox="0 0 1000 500"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-full h-full drop-shadow-[0_16px_40px_rgba(0,0,255,0.22)]"
+          preserveAspectRatio="xMidYMax meet"
+        >
+          {/*
+            Exact Half-Circle Arch Geometry:
+            Outer Semi-Circle: radius 480 (from x=20 to x=980, peak at y=20)
+            Inner Hollow Semi-Circle: radius 225 (from x=275 to x=725, peak at y=275)
+            Baseline rests flat along bottom edge (y=500)
+          */}
+          <path
+            d="M 20,500 A 480,480 0 0,1 980,500 L 725,500 A 225,225 0 0,0 275,500 Z"
+            fill="#0000FF"
+          />
+        </svg>
+      </div>
+
+      {/* 3D Zoom Stage: Emerges from hollow arch opening along Z-Axis and expands to full screen */}
       <div
         ref={zoomStageRef}
-        className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 py-2 sm:py-4 flex flex-col justify-center items-center will-change-transform"
+        className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 py-4 sm:py-6 my-auto flex flex-col justify-center items-center will-change-transform"
         style={{ transformStyle: "preserve-3d" }}
       >
-        {/* Header matching user's reference image */}
+        {/* Header */}
         <div
           ref={headerRef}
           className="text-center max-w-3xl mx-auto mb-4 sm:mb-6 px-4 will-change-transform"
@@ -495,15 +618,14 @@ export default function FourPillars() {
               const baseZ = (idx + 1) * 2;
               const zIndex = isHovered ? 50 : baseZ;
 
-              // Calculate horizontal offset (spreading effect as in Picture 2):
-              // Adjusted dynamically so tablet cards stay within viewport
+              // Calculate horizontal offset (spreading effect):
               let targetX = 0;
               if (isAnyHovered && !isHovered) {
                 const spreadDistance = typeof window !== "undefined" && window.innerWidth < 1024 ? 22 : 38;
                 targetX = idx < hoveredIdx ? -spreadDistance : spreadDistance;
               }
 
-              // On hover: the card elevates to -28px and straightens to 0deg
+              // On hover: the card elevates to -26px and straightens to 0deg
               const targetHoverY = isHovered ? -26 - card.baseY : 0;
               const targetHoverRotate = isHovered ? -card.baseRotate : 0;
               const targetScale = isHovered ? 1.05 : isAnyHovered ? 0.98 : 1;
@@ -659,7 +781,7 @@ export default function FourPillars() {
           ))}
         </div>
       </div>
-    </section>
+      </section>
+    </div>
   );
 }
-

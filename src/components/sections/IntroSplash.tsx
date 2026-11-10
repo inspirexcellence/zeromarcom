@@ -71,7 +71,7 @@ export default function IntroSplash() {
           <div className="absolute inset-0 noise-overlay opacity-20 pointer-events-none" />
 
           {/* Dead Center Brand Reveal with Clarify & Disperse Mechanics */}
-          <div className="relative z-10 text-center px-6">
+          <div className="relative z-10 w-full max-w-[100vw] text-center px-4 sm:px-8 flex items-center justify-center overflow-hidden">
             <motion.h1
               initial={{
                 filter: "blur(50px)",
@@ -110,7 +110,7 @@ export default function IntroSplash() {
                       },
                     }
               }
-              className="font-heading text-6xl sm:text-8xl md:text-9xl lg:text-[11rem] leading-[0.88] text-[#101012] font-extrabold tracking-tight"
+              className="font-heading text-[clamp(2rem,9.2vw,10rem)] leading-[0.88] text-[#101012] font-extrabold tracking-tight whitespace-nowrap will-change-[transform,opacity,filter] transform-gpu"
             >
               ZEROMARCOM<span className="text-[#0047FF]">.</span>
             </motion.h1>

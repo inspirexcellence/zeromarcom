@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ContactTerminal from "@/components/sections/ContactTerminal";
+import WorldMapDemo from "@/components/world-map-demo";
 
 export const metadata: Metadata = {
   title: "Contact Us — Kolkata HQ & USA Node | ZEROMARCOM",
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="pt-28 pb-16">
+    <div className="pt-28">
       {/* Page Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-8 mb-6">
         <h1 className="font-heading text-4xl sm:text-6xl md:text-7xl text-ink font-bold tracking-tight leading-[1.08]">
@@ -23,6 +24,11 @@ export default function ContactPage() {
 
       {/* Full Contact Terminal */}
       <ContactTerminal />
+
+      {/* Global Connectivity World Map Section (Above Footer) */}
+      <div className="mt-16">
+        <WorldMapDemo />
+      </div>
     </div>
   );
 }

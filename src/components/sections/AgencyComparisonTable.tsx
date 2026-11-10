@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "motion/react";
 import { Check, X, Shield, Sparkles } from "lucide-react";
 
 interface ComparisonRow {
@@ -70,9 +71,13 @@ export default function AgencyComparisonTable() {
         {/* Comparison Rows */}
         <div className="divide-y divide-line/70">
           {COMPARISON_DATA.map((row, idx) => (
-            <div
+            <motion.div
               key={row.dimension}
-              className={`p-6 sm:p-8 grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-6 items-center transition-colors hover:bg-canvas/40 ${
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: idx * 0.08 }}
+              className={`p-5 sm:p-8 grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-5 md:gap-6 items-center transition-colors hover:bg-blue-50/25 ${
                 idx % 2 === 0 ? "bg-white" : "bg-[#fafafc]"
               }`}
             >
@@ -114,7 +119,7 @@ export default function AgencyComparisonTable() {
                   </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 

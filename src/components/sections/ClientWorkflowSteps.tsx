@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "motion/react";
 import { Compass, FileCode2, Gauge, Rocket } from "lucide-react";
 
 const STEPS = [
@@ -54,19 +55,27 @@ export default function ClientWorkflowSteps() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {STEPS.map((step) => {
+        {STEPS.map((step, idx) => {
           const Icon = step.icon;
           return (
-            <div
+            <motion.div
               key={step.num}
-              className="p-7 sm:p-8 rounded-[28px] bg-white border border-line flex flex-col justify-between shadow-sm relative group hover:border-ink/40 transition-all hover:-translate-y-1 duration-300"
+              initial={{ opacity: 0, y: 26 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              whileHover={{ y: -6 }}
+              className="p-6 sm:p-8 rounded-[28px] bg-white border border-line flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-cobalt/50 hover:shadow-xl transition-all duration-300"
             >
-              <div>
+              {/* Aceternity Hover Spotlight */}
+              <div className="absolute -top-20 -right-20 w-44 h-44 rounded-full bg-blue-500/8 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+              <div className="relative z-10">
                 <div className="flex items-center justify-between mb-6">
                   <span className="font-mono text-2xl font-bold text-cobalt">
                     {step.num}
                   </span>
-                  <div className="w-10 h-10 rounded-xl bg-canvas border border-line flex items-center justify-center text-ink group-hover:bg-ink group-hover:text-white transition-colors">
+                  <div className="w-10 h-10 rounded-xl bg-canvas border border-line flex items-center justify-center text-ink group-hover:bg-cobalt group-hover:text-white group-hover:border-cobalt transition-all duration-300">
                     <Icon className="w-5 h-5" />
                   </div>
                 </div>
@@ -84,7 +93,7 @@ export default function ClientWorkflowSteps() {
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-line/60">
+              <div className="relative z-10 pt-4 border-t border-line/60">
                 <div className="font-mono text-[10px] text-ink font-semibold uppercase mb-2">
                   KEY DELIVERABLES:
                 </div>
@@ -100,7 +109,7 @@ export default function ClientWorkflowSteps() {
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>

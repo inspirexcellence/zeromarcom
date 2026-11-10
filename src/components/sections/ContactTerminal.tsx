@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "motion/react";
 import { Mail, Copy, Send } from "lucide-react";
 import { emitToast } from "@/components/ui/ToastNotification";
 
@@ -58,15 +59,21 @@ export default function ContactTerminal() {
   };
 
   return (
-    <section id="contact" className="py-24 sm:py-32 px-4 sm:px-8 max-w-7xl mx-auto scroll-mt-24 select-none">
+    <section id="contact" className="py-16 sm:py-28 px-4 sm:px-8 max-w-7xl mx-auto scroll-mt-24 select-none">
       <div>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 sm:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-16">
           {/* Left: Agency Details */}
-          <div className="lg:col-span-5 flex flex-col justify-between">
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-5 flex flex-col justify-between"
+          >
             <div>
-              <h2 className="font-serif text-5xl sm:text-6xl text-ink font-normal leading-[0.96]">
+              <h2 className="font-serif text-4xl sm:text-6xl text-ink font-normal leading-[0.98]">
                 Let&apos;s architect something <br />
-                <span className="italic font-normal">legendary.</span>
+                <span className="italic font-normal text-cobalt">legendary.</span>
               </h2>
               <p className="font-sans text-sm text-ink-muted mt-6 leading-relaxed max-w-md">
                 We review prospective partnerships on a rolling weekly basis. Reach out directly or
@@ -75,26 +82,29 @@ export default function ContactTerminal() {
 
             {/* Direct Email & Phone Widget */}
             <div className="mt-8 space-y-3 max-w-md">
-              <div className="p-4 rounded-2xl bg-canvas border border-line flex items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
+              <motion.div
+                whileHover={{ y: -2 }}
+                className="p-4 rounded-2xl bg-canvas border border-line hover:border-cobalt/40 transition-colors flex items-center justify-between gap-3"
+              >
+                <div className="flex items-center gap-3 min-w-0">
                   <Mail className="w-4 h-4 text-cobalt shrink-0" />
-                  <span className="font-mono text-xs sm:text-sm text-ink font-medium">
+                  <span className="font-mono text-xs sm:text-sm text-ink font-medium truncate">
                     contact@zeromarcom.com
                   </span>
                 </div>
                 <button
                   type="button"
                   onClick={handleCopyEmail}
-                  className="px-3 py-1.5 rounded-lg bg-white border border-line hover:bg-ink hover:text-white font-mono text-xs transition-colors flex items-center gap-1 cursor-pointer"
+                  className="px-3 py-1.5 rounded-lg bg-white border border-line hover:bg-ink hover:text-white font-mono text-xs transition-colors flex items-center gap-1 cursor-pointer shrink-0"
                 >
                   <span>{copyLabel}</span>
                   <Copy className="w-3.5 h-3.5" />
                 </button>
-              </div>
+              </motion.div>
 
               {/* Phone Numbers */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="p-3.5 rounded-2xl bg-canvas border border-line">
+                <motion.div whileHover={{ y: -2 }} className="p-3.5 rounded-2xl bg-canvas border border-line hover:border-cobalt/40 transition-colors">
                   <div className="font-mono text-[10px] text-cobalt uppercase font-semibold">
                     PHONE (INDIA)
                   </div>
@@ -107,9 +117,9 @@ export default function ContactTerminal() {
                   <div className="font-mono text-[10px] text-ink-muted mt-0.5">
                     +91 9432497871
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="p-3.5 rounded-2xl bg-canvas border border-line">
+                <motion.div whileHover={{ y: -2 }} className="p-3.5 rounded-2xl bg-canvas border border-line hover:border-cobalt/40 transition-colors">
                   <div className="font-mono text-[10px] text-cobalt uppercase font-semibold">
                     PHONE (USA)
                   </div>
@@ -122,13 +132,16 @@ export default function ContactTerminal() {
                   <div className="font-mono text-[10px] text-ink-muted mt-0.5">
                     Global Inquiries
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
 
           {/* Exact Location & Working Hours */}
-            <div className="mt-8 font-mono text-xs text-ink-muted space-y-2 p-5 rounded-2xl bg-canvas border border-line max-w-md">
+            <motion.div
+              whileHover={{ y: -2 }}
+              className="mt-8 font-mono text-xs text-ink-muted space-y-2 p-5 rounded-2xl bg-canvas border border-line hover:border-cobalt/40 transition-colors max-w-md"
+            >
               <div className="text-ink font-semibold flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span>OFFICE LOCATION // INDIA</span>
@@ -136,15 +149,22 @@ export default function ContactTerminal() {
               <div className="text-ink font-medium leading-relaxed">
                 3rd Floor (3A), Star Lilly, 2 Dum Dum Park, Kolkata 700055, West Bengal, India
               </div>
-              <div className="pt-2 border-t border-line/60 flex justify-between text-[11px]">
+              <div className="pt-2 border-t border-line/60 flex flex-wrap justify-between gap-2 text-[11px]">
                 <span>HOURS:</span>
                 <span className="text-ink font-medium">Mon – Sat: 10:00 AM – 7:00 PM IST</span>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
-          {/* Right: Inquiry Form */}
-          <div className="lg:col-span-7 p-6 sm:p-10 rounded-3xl bg-canvas border border-line">
+          {/* Right: Inquiry Form with Aceternity Spotlight */}
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="lg:col-span-7 p-6 sm:p-10 rounded-3xl bg-white border border-line editorial-shadow relative overflow-hidden group"
+          >
+            <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-blue-500/6 blur-3xl pointer-events-none" />
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
@@ -258,7 +278,7 @@ export default function ContactTerminal() {
                 <Send className="w-4 h-4" />
               </button>
             </form>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

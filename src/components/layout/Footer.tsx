@@ -33,17 +33,17 @@ export default function Footer() {
             <p className="font-sans text-xs text-ink-muted leading-relaxed">
               Strategic creative engineering, high-impact branding, and digital transformation for ambitious brands.
             </p>
-            <div className="font-mono text-[11px] text-ink-subtle">
+            <div className="font-mono text-[11px] text-ink font-semibold tracking-wider">
               KOLKATA • MUMBAI • NEW YORK
             </div>
           </div>
 
           {/* Quick Pages */}
           <div className="space-y-3 font-mono text-xs">
-            <div className="text-ink font-semibold tracking-wider uppercase mb-2">
+            <div className="text-ink font-bold tracking-wider uppercase mb-2">
               Navigation
             </div>
-            <ul className="space-y-2 text-ink-muted">
+            <ul className="space-y-2.5 text-ink/80 font-medium">
               <li>
                 <Link href="/" className="hover:text-cobalt transition-colors">
                   Home
@@ -84,10 +84,10 @@ export default function Footer() {
 
           {/* Service Divisions */}
           <div className="space-y-3 font-mono text-xs">
-            <div className="text-ink font-semibold tracking-wider uppercase mb-2">
+            <div className="text-ink font-bold tracking-wider uppercase mb-2">
               Solutions
             </div>
-            <ul className="space-y-2 text-ink-muted">
+            <ul className="space-y-2.5 text-ink/80 font-medium">
               <li>
                 <Link href="/services#personal-branding" className="hover:text-cobalt transition-colors">
                   Personal Brand Coaching
@@ -118,37 +118,37 @@ export default function Footer() {
 
           {/* Direct Coordinates */}
           <div className="space-y-3 font-mono text-xs">
-            <div className="text-ink font-semibold tracking-wider uppercase mb-2">
+            <div className="text-ink font-bold tracking-wider uppercase mb-2">
               Coordinates
             </div>
-            <div className="space-y-2 text-ink-muted leading-relaxed">
+            <div className="space-y-2.5 text-ink/80 leading-relaxed">
               <div>
-                <span className="text-ink font-medium">Kolkata HQ:</span>
+                <span className="text-ink font-semibold">Kolkata HQ:</span>
                 <br />
                 3rd Floor (3A), Star Lilly, 2 Dum Dum Park, Kolkata 700055, WB, India
               </div>
               <div>
-                <span className="text-ink font-medium">India Phone:</span>
+                <span className="text-ink font-semibold">India Phone:</span>
                 <br />
-                <a href="tel:02269620665" className="hover:text-cobalt">
+                <a href="tel:02269620665" className="hover:text-cobalt font-medium">
                   022 6962 0665
                 </a>{" "}
                 /{" "}
-                <a href="tel:+919432497871" className="hover:text-cobalt">
+                <a href="tel:+919432497871" className="hover:text-cobalt font-medium">
                   +91 9432497871
                 </a>
               </div>
               <div>
-                <span className="text-ink font-medium">USA Phone:</span>
+                <span className="text-ink font-semibold">USA Phone:</span>
                 <br />
-                <a href="tel:+15168744841" className="hover:text-cobalt">
+                <a href="tel:+15168744841" className="hover:text-cobalt font-medium">
                   +1 5168744841
                 </a>
               </div>
               <div>
-                <span className="text-ink font-medium">Direct Email:</span>
+                <span className="text-ink font-semibold">Direct Email:</span>
                 <br />
-                <a href="mailto:contact@zeromarcom.com" className="hover:text-cobalt">
+                <a href="mailto:contact@zeromarcom.com" className="hover:text-cobalt font-medium">
                   contact@zeromarcom.com
                 </a>
               </div>
@@ -164,19 +164,19 @@ export default function Footer() {
         </div>
 
         {/* Bottom Credits Bar */}
-        <div className="border-t border-line pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-ink-muted">
+        <div className="border-t border-line pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-ink/80 font-medium">
           <div>© 2026 ZEROMARCOM. ALL RIGHTS RESERVED.</div>
           <div className="flex items-center gap-6">
-            <Link href="/contact" className="hover:text-ink transition-colors">
+            <Link href="/contact" className="hover:text-cobalt transition-colors">
               INQUIRE
             </Link>
-            <Link href="/scope-lab" className="hover:text-ink transition-colors">
+            <Link href="/scope-lab" className="hover:text-cobalt transition-colors">
               SCOPE LAB
             </Link>
             <button
               type="button"
               onClick={scrollToTop}
-              className="hover:text-ink flex items-center gap-1 transition-colors cursor-pointer"
+              className="hover:text-cobalt flex items-center gap-1 transition-colors cursor-pointer"
             >
               <span>BACK TO TOP</span>
               <ArrowUp className="w-3.5 h-3.5" />

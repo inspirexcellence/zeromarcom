@@ -1,10 +1,10 @@
 import IntroSplash from "@/components/sections/IntroSplash";
 import HeroShowreel from "@/components/sections/HeroShowreel";
-import ClientMarquee from "@/components/sections/ClientMarquee";
 import FourPillars from "@/components/sections/FourPillars";
 import FeaturedServices from "@/components/sections/FeaturedServices";
 import FeaturedWorks from "@/components/sections/FeaturedWorks";
 import AboutTeaser from "@/components/sections/AboutTeaser";
+import BackgroundCubesGridDemo from "@/components/background-cubes-grid-demo";
 import HomeCtaBanner from "@/components/sections/HomeCtaBanner";
 
 export default function Home() {
@@ -16,20 +16,20 @@ export default function Home() {
       {/* 2. Hero: 100vw, 100vh Fullscreen Autoplay Showreel Video */}
       <HeroShowreel />
 
-      {/* 3. Marquee Recognition Ticker */}
-      <ClientMarquee />
-
-      {/* 4. Why Brands Work With Us (Signature Interactive Fanned Deck) */}
+      {/* 3. Why Brands Work With Us (Marquee Entrance, Cobalt Arch Portal & Signature Interactive Deck) */}
       <FourPillars />
 
-      {/* 5. Comprehensive Digital Solutions (3 Core Divisions Teaser) */}
+      {/* 4. Comprehensive Digital Solutions (3 Core Divisions Teaser) */}
       <FeaturedServices />
 
-      {/* 6. Selected Works (Top Project Highlights) */}
+      {/* 5. Selected Works (Top Project Highlights) */}
       <FeaturedWorks />
 
-      {/* 7. Agency Manifesto & Masterminds Teaser */}
+      {/* 6. Agency Manifesto & Masterminds Teaser */}
       <AboutTeaser />
+
+      {/* 7. Interactive 3D Isometric Rippling Cubes & Omnichannel Sync Section */}
+      <BackgroundCubesGridDemo />
 
       {/* 8. Conversion Call-to-Action Strip */}
       <HomeCtaBanner />
