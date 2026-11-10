@@ -229,11 +229,17 @@ export default function HeroShowreel() {
   return (
     <section
       id="hero-stage"
-      className="relative w-full h-screen h-[100dvh] min-h-[100dvh] max-h-[100dvh] overflow-hidden select-none bg-black flex items-center justify-center"
+      className={`relative w-full h-screen h-[100dvh] min-h-[100dvh] max-h-[100dvh] overflow-hidden select-none flex items-center justify-center ${
+        stage === "fullscreen" ? "bg-black" : "bg-white"
+      }`}
       style={{ perspective: "1500px" }}
     >
-      {/* Ambient background glow on clean canvas */}
-      <div className="absolute inset-0 bg-black" />
+      {/* Ambient background glow on clean canvas — stays white from IntroSplash until video reaches fullscreen */}
+      <div
+        className={`absolute inset-0 ${
+          stage === "fullscreen" ? "bg-black" : "bg-white"
+        }`}
+      />
 
       {/* 
         3D Floating Rectangular Video Container

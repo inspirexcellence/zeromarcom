@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/immutability */
 "use client";
 import React, { useRef, useMemo, useState, useCallback, useEffect, Suspense } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber/legacy";
-import { useTexture } from "@react-three/drei";
+import { Canvas, useFrame, useThree, useLoader } from "@react-three/fiber/legacy";
 import { OrbitControls as ThreeOrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import * as THREE from "three";
 import { cn } from "@/lib/utils";
@@ -236,7 +235,7 @@ function RotatingGlobe({
   const groupRef = useRef<THREE.Group>(null);
 
   // Load Earth textures
-  const [earthTexture, bumpTexture] = useTexture([
+  const [earthTexture, bumpTexture] = useLoader(THREE.TextureLoader, [
     config.textureUrl,
     config.bumpMapUrl,
   ]);
